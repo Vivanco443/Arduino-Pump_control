@@ -9,13 +9,13 @@
 
   //  Sensores
 #define energia1 7    // Señal para los sensores
-#define SAT0 8    //  Sensor alto Tinaco 0 o tinaco de abajo
-#define SBT0 9    //  Sensor bajo Tinaco 0 o tinaco de abajo
-#define SAT1 10   //  Sensor alto Tinaco 1 o tinaco de arriba
-#define SBT1 11   //  Sensor bajo Tinaco 1 o tinaco de arriba
+#define SAT0 8    //  Sensor Alto Tinaco 0 o tinaco de abajo
+#define SBT0 9    //  Sensor Bajo Tinaco 0 o tinaco de abajo
+#define SAT1 10   //  Sensor Alto Tinaco 1 o tinaco de arriba
+#define SBT1 11   //  Sensor Bajo Tinaco 1 o tinaco de arriba
 #define energia0 12   // Señal para los sensores
 
-//banderas
+//banderas - flags
 bool Bajotinaco000 = false;
 bool Altotinaco000 = false;
 bool Bajotinaco111 = false;
@@ -43,7 +43,7 @@ void setup() {
 
 void loop() {
 
-  Bajotinaco111 = digitalRead(SBT1);
+  Bajotinaco111 = digitalRead(SBT1); // Read of the sensor
   if (Bajotinaco111 == true){   // Esta abierto cuando hay agua   ; cuando falta el agua arriba
     //  Osea que falta agua arriba
     
