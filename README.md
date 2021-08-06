@@ -17,3 +17,15 @@ SBT1    //  Low Sensor, tank 1
 EB 3    //  enable pump
 EV1 4   //  enable valve 1
 EV0 5   //  enable valve 0
+
+
+On the last commit we have in the code, the propose was to set a mechanical valve between the waterflow entrance and the first tank, the lower one. Because of that we don´t have 2 elctrovalves anymore, otherwise just one now (the one that is between the first tank and the pump), we don´t need two sensors in the low tank, only the lower one.
+
+our new map is the next one
+
+SBT0    //  Low Sensor, tank 0
+SAT1    //  High Sensor, tank 1
+SBT1    //  Low Sensor, tank 1
+
+EB 3    //  enable pump
+EV1 4   //  enable valve 1
