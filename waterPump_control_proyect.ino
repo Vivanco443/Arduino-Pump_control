@@ -1,5 +1,5 @@
 
-// Cuando SAT1 y 0 estan e HIGH es que estan llenos
+ // Cuando SAT1 y 0 estan e HIGH es que estan llenos
  // Cuando SBT1 y 0 estan e HIGH es que estan vacios
 
 //  Actuadores
@@ -9,18 +9,17 @@
 
   //  Sensores
 #define energia1 7    // Señal para los sensores
-#define SAT0 8    //  Sensor Alto Tinaco 0 o tinaco de abajo
-#define SBT0 9    //  Sensor Bajo Tinaco 0 o tinaco de abajo
-#define SAT1 10   //  Sensor Alto Tinaco 1 o tinaco de arriba
-#define SBT1 11   //  Sensor Bajo Tinaco 1 o tinaco de arriba
+#define SAT0 8    //  Sensor alto Tinaco 0 o tinaco de abajo
+#define SBT0 9    //  Sensor bajo Tinaco 0 o tinaco de abajo
+#define SAT1 10   //  Sensor alto Tinaco 1 o tinaco de arriba
+#define SBT1 11   //  Sensor bajo Tinaco 1 o tinaco de arriba
 #define energia0 12   // Señal para los sensores
 
-//banderas - flags
+//banderas
 bool Bajotinaco000 = false;
 bool Altotinaco000 = false;
 bool Bajotinaco111 = false;
 bool Altotinaco111 = false;
-
 
 void setup() {
   pinMode(EB, OUTPUT);
@@ -34,7 +33,6 @@ void setup() {
   pinMode(energia1, OUTPUT);
   digitalWrite(energia0, HIGH);
   digitalWrite(energia1, HIGH);
-  
   pinMode(LED_BUILTIN, OUTPUT);
   digitalWrite(LED_BUILTIN, LOW);
   
@@ -43,7 +41,7 @@ void setup() {
 
 void loop() {
 
-  Bajotinaco111 = digitalRead(SBT1); // Read of the sensor
+  Bajotinaco111 = digitalRead(SBT1);
   if (Bajotinaco111 == true){   // Esta abierto cuando hay agua   ; cuando falta el agua arriba
     //  Osea que falta agua arriba
     
@@ -57,7 +55,6 @@ void loop() {
       
         Altotinaco111 = digitalRead(SAT1);
     
-    
     } while(Altotinaco111 == false);
     
   }
@@ -67,7 +64,9 @@ void loop() {
   delay(2000); 
 }
 
+
 void Llenado_tinaco_0(){
+  int i = 0;
   digitalWrite(EV0, HIGH);    //Abrimos la valvula de llenado
   do{
           digitalWrite(LED_BUILTIN, HIGH);      // Mientras esta abierta dejamos parpadeando el led
@@ -82,8 +81,21 @@ void Llenado_tinaco_0(){
           delay(500); 
           digitalWrite(LED_BUILTIN, LOW);    
           delay(500); 
-          
           Altotinaco000 = digitalRead(SAT0);
+          i++;
+          if(i >= 1200){  // Si ya pasaron 1.5 horas y no se llena
+            int j = 0;
+            digitalWrite(EV0, LOW); //  Apaga la valvula
+            while(j < 1500){  // La descansa una hora
+              digitalWrite(LED_BUILTIN, HIGH);
+              delay(400);
+              digitalWrite(LED_BUILTIN, LOW);
+              delay(2000);
+              j++;
+            }
+            i = 0;
+            digitalWrite(EV0, HIGH);    // La vuelve a encender
+          }
   }while(Altotinaco000 == false);
       
   digitalWrite(EV0, LOW);   // Cerramos valvula de llenado
@@ -113,3 +125,4 @@ void Elevacion_de_agua(){
   delay(2000);
   digitalWrite(EV1, LOW);
 }
+
